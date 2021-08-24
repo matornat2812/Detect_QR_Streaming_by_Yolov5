@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Synchronized Slider</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/socket.io-client@3.1.3/dist/socket.io.min.js"></script> -->
+  <script src="{{ url_for('static',filename='socket.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+  <style>
+    #main {
+      display: flex;
+    }
+
+    .wrapper {
+      /* position: absolute; */
+    }
+
+    .list {
+      height: 753px;
+      overflow-y: scroll;
+    }
+
+    .img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .video {
+      width: 779px;
+      height: 755px;
+    }
+  </style>
+</head>
+
+<script type="text/javascript">
+  function myFunction(msg) {
+    var div = document.createElement("div");
+    div.innerHTML = '<img class="img" src="'+msg.img_path+'" />'+'<span>'+msg.name+'</span>'+'<a href="'+msg.text+'" target="_blank" rel="noopener noreferrer"  >Continue </a>'
+    var myList = document.getElementById("cl1");
+    if (myList.childElementCount >= 10) {
+      myList.removeChild(myList.lastElementChild)
+    }
+    myList.insertBefore(div, myList.firstChild)
+  }
+  //src="{{ url_for('static',filename='1.png') }}
+  // sending a connect request to the server.
+  var socket = io("/result");
+
+  socket.on('message', function (msg) {
+    console.log('After connect', msg);
+    myFunction(msg)
+  });
+
+  socket.on('result', function (msg) {
+    
+  });
+
+  socket.on('update value', function (msg) {
+    console.log('Slider value updated');
+    $('#' + msg.who).val(msg.data);
+  });
+
+</script>
+
+<body>
+  <script>
+
+  </script>
+  <h1>QRCODE Reader Demontration</h1>
+  <div id="main">
+    <div style="background-color:coral; width: 65%">
+      <h2>camera (SCREEN)</h2>
+      <div class="wrapper">
+        <img class='video' src="{{ url_for('video_feed') }}" />
+      </div>
+    </div>
+    <div style="background-color:lightblue; width: 35%;height: 800px">
+    <h2> Detection </h2>  
+      <div class="list" id='cl1'>
+
+        <div style="display: flex">
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <p><b>Note:</b> Internet Explorer 10 and earlier versions do not support the flex-direction property.</p>
+
+</body>
+
+</html>

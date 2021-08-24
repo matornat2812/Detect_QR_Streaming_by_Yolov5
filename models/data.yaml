@@ -1,0 +1,8 @@
+train: data/images/train2017
+val: data/images/val2017
+
+# number of classes
+nc: 1
+
+# class names
+names: ["QR"]
