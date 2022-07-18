@@ -29,7 +29,7 @@ thop  # FLOPS computation
 pycocotools>=2.0  # COCO mAP
 Flask-SocketIO==4.3.1
 python-engineio==3.13.2
-python-socketio==4.6.0
+python-socketio==5.7.1
 argparse
 time
 pyzbar
